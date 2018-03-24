@@ -1,6 +1,7 @@
 package com.jonathan.catfeed.data;
 
 import android.os.Handler;
+import android.util.Log;
 
 import com.jonathan.catfeed.api.ApiClient;
 import com.jonathan.catfeed.api.models.FeedResponse;
@@ -20,6 +21,8 @@ public class FeedManager {
         void onFailure(Throwable t);
     }
 
+    private static final String LOG_TAG = "FeedManager";
+
     private static final int HTTP_STATUS_OK = 200;
 
     private static FeedManager instance;
@@ -27,6 +30,8 @@ public class FeedManager {
     private FeedListener listener;
 
     private Handler handler = new Handler();
+
+    private Call<FeedResponse> feedCall;
 
     private final Callback<FeedResponse> feedCallback = new Callback<FeedResponse>() {
         @Override
@@ -63,16 +68,29 @@ public class FeedManager {
     }
 
     public void listen(FeedListener listener) {
+        Log.d(LOG_TAG, "Attached listener!");
         this.listener = listener;
     }
 
     public void requestImages() {
-        handler.postDelayed(() ->
-            ApiClient.getCatPictures().enqueue(get().feedCallback),
-            DelayManager.get().calculateDelay());
+        Log.d(LOG_TAG, "Requesting images...");
+        handler.postDelayed(() -> {
+                feedCall = ApiClient.getCatPictures();
+                feedCall.enqueue(feedCallback);
+            }, DelayManager.get().calculateDelay());
     }
 
-    public static void removeListener() {
-        get().listen(null);
+    public void removeListener() {
+        listen(null);
+    }
+
+    public void destroy() {
+        Log.d(LOG_TAG, "Destroying the feed manager");
+
+        if (feedCall != null) {
+            feedCall.cancel();
+        }
+
+        removeListener();
     }
 }

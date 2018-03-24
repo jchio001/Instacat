@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        FeedManager.removeListener();
+        FeedManager.get().destroy();
         super.onDestroy();
     }
 }

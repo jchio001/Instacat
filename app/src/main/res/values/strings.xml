@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Instacat</string>
+
+    <string name="failed_request">Failed to fetch images. Please try again later.</string>
 </resources>

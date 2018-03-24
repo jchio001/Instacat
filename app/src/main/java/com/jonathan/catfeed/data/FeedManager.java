@@ -22,7 +22,6 @@ public class FeedManager {
     }
 
     private static final String LOG_TAG = "FeedManager";
-
     private static final int HTTP_STATUS_OK = 200;
 
     private static FeedManager instance;

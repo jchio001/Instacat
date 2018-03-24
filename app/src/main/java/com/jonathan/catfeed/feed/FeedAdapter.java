@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.jonathan.catfeed.api.ApiClient;
 import com.jonathan.catfeed.api.models.Image;
 import com.jonathan.catfeed.commons.GridCell;
 import com.jonathan.catfeed.commons.GridCell.ItemType;
@@ -88,15 +89,20 @@ public class FeedAdapter extends BaseAdapter {
 
     public void handleFailedRequest() {
         if (feedState == FeedState.INITIALIZING) {
-            gridCells.add(GridCellFactory.getEmptyCell());
-            gridCells.add(GridCellFactory.getRefreshIconCell());
-        } else {
-            int currentSize = gridCells.size();
-            if (currentSize > 0) {
-                gridCells.remove(currentSize - 1);
+            if (gridCells.size() == ApiClient.PAGE_SIZE) {
+                gridCells.add(GridCellFactory.getEmptyCell());
                 gridCells.add(GridCellFactory.getRefreshIconCell());
-                notifyDataSetChanged();
             }
+        } else {
+            gridCells.remove(gridCells.size() - 1);
+            gridCells.add(GridCellFactory.getRefreshIconCell());
         }
+        notifyDataSetChanged();
+    }
+
+    public void showProgessBarCell() {
+        gridCells.remove(gridCells.size() - 1);
+        gridCells.add(GridCellFactory.getRefreshIconCell());
+        notifyDataSetChanged();
     }
 }

@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     @OnItemClick(R.id.cat_grid_view)
     public void onGridCellClick(int position) {
         if (feedAdapter.getItem(position).getItemType() == ItemType.REFRESH_ICON_CELL) {
+            pagingScrollListener.setLoading(true);
             feedAdapter.showProgessBarCell();
             FeedManager.get().requestImages();
         }

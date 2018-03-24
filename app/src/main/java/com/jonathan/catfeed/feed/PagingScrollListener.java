@@ -1,5 +1,6 @@
 package com.jonathan.catfeed.feed;
 
+import android.support.annotation.NonNull;
 import android.widget.AbsListView;
 
 import com.jonathan.catfeed.commons.GridCell.ItemType;
@@ -22,7 +23,7 @@ public class PagingScrollListener implements AbsListView.OnScrollListener {
         if (shouldRefresh(view, lastVisibleItemIndex, totalItemCount)) {
             if (!isLoading) {
                 isLoading = true;
-                FeedManager.requestImages();
+                FeedManager.get().requestImages();
             }
         }
     }

@@ -1,49 +1,54 @@
 package com.jonathan.catfeed.data;
 
-import android.util.Log;
+import android.os.Handler;
 
 import com.jonathan.catfeed.api.ApiClient;
 import com.jonathan.catfeed.api.models.FeedResponse;
 import com.jonathan.catfeed.api.models.Image;
+import com.jonathan.catfeed.feed.DelayManager;
 
 import java.util.List;
 
-import io.reactivex.Observer;
-import io.reactivex.SingleObserver;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.subjects.PublishSubject;
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FeedManager {
 
-    private static final String LOG_TAG = "FeedManager";
+    public interface FeedListener {
+        void onSuccess(List<Image> images);
+        void onFailure(Throwable t);
+    }
+
+    private static final int HTTP_STATUS_OK = 200;
 
     private static FeedManager instance;
 
-    private PublishSubject<List<Image>> imageSubject = PublishSubject.create();
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private FeedListener listener;
 
-    private SingleObserver<Response<FeedResponse>> feedObserver =
-        new SingleObserver<Response<FeedResponse>>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                compositeDisposable.add(d);
-            }
+    private Handler handler = new Handler();
 
-            @Override
-            public void onSuccess(Response<FeedResponse> response) {
-                Log.i(LOG_TAG, "We did it!");
-                imageSubject.onNext(response.body().getFeedData().getImages().getImageList());
+    private final Callback<FeedResponse> feedCallback = new Callback<FeedResponse>() {
+        @Override
+        public void onResponse(Call<FeedResponse> call, Response<FeedResponse> response) {
+            if (response.code() == HTTP_STATUS_OK) {
+                if (listener != null) {
+                    listener.onSuccess(response.body().getFeedData().getImages().getImageList());
+                }
+            } else {
+                if (listener != null) {
+                    listener.onFailure(new Exception("Network request failed"));
+                }
             }
+        }
 
-            @Override
-            public void onError(Throwable e) {
-                Log.e(LOG_TAG, e.getMessage());
-                imageSubject.onError(e);
+        @Override
+        public void onFailure(Call<FeedResponse> call, Throwable t) {
+            if (listener != null) {
+                listener.onFailure(t);
             }
-        };
+        }
+    };
 
     public static FeedManager get() {
         if (instance == null) {
@@ -57,13 +62,17 @@ public class FeedManager {
         return instance;
     }
 
-    public static void requestImages() {
-        ApiClient.getCatPictures()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeWith(get().feedObserver);
+    public void listen(FeedListener listener) {
+        this.listener = listener;
     }
 
-    public static void subscribeToFeed(Observer<List<Image>> imagesObserver) {
-        get().imageSubject.subscribeWith(imagesObserver);
+    public void requestImages() {
+        handler.postDelayed(() ->
+            ApiClient.getCatPictures().enqueue(get().feedCallback),
+            DelayManager.get().calculateDelay());
+    }
+
+    public static void removeListener() {
+        get().listen(null);
     }
 }

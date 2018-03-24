@@ -1,14 +1,11 @@
 package com.jonathan.catfeed.api;
 
-import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.jonathan.catfeed.api.models.FeedResponse;
 
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
-import retrofit2.Response;
+import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 
@@ -45,7 +42,6 @@ public class ApiClient {
         Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(buildClient())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(SimpleXmlConverterFactory.create())
             .build();
 
@@ -64,9 +60,8 @@ public class ApiClient {
         return catsService;
     }
 
-    public static Single<Response<FeedResponse>> getCatPictures() {
+    public static Call<FeedResponse> getCatPictures() {
         return get().getCatsService()
-            .getCatPictures(FORMAT, PAGE_SIZE, IMAGE_TYPES, IMAGE_SIZE, API_KEY)
-            .subscribeOn(Schedulers.io());
+            .getCatPictures(FORMAT, PAGE_SIZE, IMAGE_TYPES, IMAGE_SIZE, API_KEY);
     }
 }

@@ -28,11 +28,6 @@ public class DelayManager {
 
     public long calculateDelay() {
         long elapsedTime = System.currentTimeMillis() - lastActionTime;
-
-        if (elapsedTime >= cooldown) {
-            return 0;
-        } else {
-            return cooldown - elapsedTime;
-        }
+        return (elapsedTime >= cooldown) ? 0 : cooldown - elapsedTime;
     }
 }

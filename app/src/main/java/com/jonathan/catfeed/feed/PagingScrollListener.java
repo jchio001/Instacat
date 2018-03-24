@@ -1,6 +1,5 @@
 package com.jonathan.catfeed.feed;
 
-import android.support.annotation.NonNull;
 import android.widget.AbsListView;
 
 import com.jonathan.catfeed.commons.GridCell.ItemType;

@@ -1,5 +1,6 @@
 package com.jonathan.catfeed.feed;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.GridView;
@@ -7,9 +8,12 @@ import android.widget.Toast;
 
 import com.jonathan.catfeed.R;
 import com.jonathan.catfeed.api.models.Image;
+import com.jonathan.catfeed.commons.GridCell;
 import com.jonathan.catfeed.commons.GridCell.ItemType;
 import com.jonathan.catfeed.data.FeedManager;
 import com.jonathan.catfeed.data.FeedManager.FeedListener;
+import com.jonathan.catfeed.data.IntentKeys;
+import com.jonathan.catfeed.view.ViewImageActivity;
 
 import java.util.List;
 
@@ -61,10 +65,22 @@ public class MainActivity extends AppCompatActivity {
 
     @OnItemClick(R.id.cat_grid_view)
     public void onGridCellClick(int position) {
-        if (feedAdapter.getItem(position).getItemType() == ItemType.REFRESH_ICON_CELL) {
-            pagingScrollListener.setLoading(true);
-            feedAdapter.showProgessBarCell();
-            FeedManager.get().requestImages();
+        GridCell gridCell = feedAdapter.getItem(position);
+        switch (gridCell.getItemType()) {
+            case ItemType.REFRESH_ICON_CELL:
+                pagingScrollListener.setLoading(true);
+                feedAdapter.showProgessBarCell();
+                FeedManager.get().requestImages();
+                break;
+            case ItemType.IMAGE_CELL:
+                String imageUrl = ((Image) gridCell).getUrl();
+
+                if (imageUrl != null) {
+                    Intent intent = new Intent(this, ViewImageActivity.class);
+                    intent.putExtra(IntentKeys.IMAGE_URL, imageUrl);
+                    startActivity(intent);
+                    break;
+                }
         }
     }
 }

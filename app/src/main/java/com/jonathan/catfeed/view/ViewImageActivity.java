@@ -20,8 +20,8 @@ public class ViewImageActivity extends AppCompatActivity {
     @BindView(R.id.cat_image_view) SquareImageView catImageView;
     @BindView(R.id.favorite_icon) ImageView favoriteIcon;
 
-    String imageId;
-    boolean isFavorite = false;
+    private String imageId;
+    private boolean isFavorite = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

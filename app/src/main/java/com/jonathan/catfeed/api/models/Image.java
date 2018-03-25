@@ -31,8 +31,8 @@ public class Image implements GridCell {
         return url;
     }
 
-    public Image setSourceUrl(String sourceUrl) {
-        this.sourceUrl = sourceUrl;
+    public Image setUrl(String url) {
+        this.url = url;
         return this;
     }
 

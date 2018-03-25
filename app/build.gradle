@@ -8,7 +8,7 @@ android {
     }
     defaultConfig {
         applicationId "com.jonathan.catfeed"
-        minSdkVersion 16
+        minSdkVersion 14
         targetSdkVersion 27
         vectorDrawables.useSupportLibrary = true
         versionCode 1

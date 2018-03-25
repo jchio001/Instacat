@@ -18,6 +18,11 @@ public class Image implements GridCell {
     private String sourceUrl;
 
     @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
     public @ItemType int getItemType() {
         return ItemType.IMAGE_CELL;
     }
@@ -26,8 +31,18 @@ public class Image implements GridCell {
         return url;
     }
 
+    public Image setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl;
+        return this;
+    }
+
     public String getId() {
         return id;
+    }
+
+    public Image setId(String id) {
+        this.id = id;
+        return this;
     }
 
     public String getSourceUrl() {

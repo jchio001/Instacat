@@ -73,11 +73,12 @@ public class MainActivity extends AppCompatActivity {
                 FeedManager.get().requestImages();
                 break;
             case ItemType.IMAGE_CELL:
-                String imageUrl = ((Image) gridCell).getUrl();
+                Image image = (Image) gridCell;
 
-                if (imageUrl != null) {
+                if (image.getUrl() != null) {
                     Intent intent = new Intent(this, ViewImageActivity.class);
-                    intent.putExtra(IntentKeys.IMAGE_URL, imageUrl);
+                    intent.putExtra(IntentKeys.IMAGE_ID, image.getId());
+                    intent.putExtra(IntentKeys.IMAGE_URL, image.getUrl());
                     startActivity(intent);
                     break;
                 }

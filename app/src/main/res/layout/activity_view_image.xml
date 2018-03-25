@@ -12,4 +12,11 @@
         android:layout_gravity="center"
         android:scaleType="fitXY"/>
 
+    <ImageView
+        android:id="@+id/favorite_icon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="top|end"
+        android:padding="10dp"/>
+
 </FrameLayout>

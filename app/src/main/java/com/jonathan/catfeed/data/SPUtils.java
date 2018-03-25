@@ -37,7 +37,7 @@ public class SPUtils {
     public static void persistImageUrl(Context context, String imageId, String imageUrl) {
         PreferenceManager.getDefaultSharedPreferences(context)
             .edit()
-            .putString(imageId + "_" + IntentKeys.IMAGE_URL, imageUrl)
+            .putString(imageId, imageUrl)
             .apply();
     }
 

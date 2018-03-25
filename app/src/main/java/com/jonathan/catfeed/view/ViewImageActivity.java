@@ -20,7 +20,7 @@ public class ViewImageActivity extends AppCompatActivity {
     @BindView(R.id.cat_image_view) SquareImageView catImageView;
     @BindView(R.id.favorite_icon) ImageView favoriteIcon;
 
-    private String imageId;
+    private String imageUrl;
     private boolean isFavorite = false;
 
     @Override
@@ -31,10 +31,9 @@ public class ViewImageActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        imageId = getIntent().getStringExtra(IntentKeys.IMAGE_ID);
-        isFavorite = SPUtils.isFavorite(this, imageId);
+        imageUrl = getIntent().getStringExtra(IntentKeys.IMAGE_URL);
+        isFavorite = SPUtils.isFavorite(this, imageUrl);
 
-        String imageUrl = getIntent().getStringExtra(IntentKeys.IMAGE_URL);
         Picasso.get()
             .load(imageUrl)
             .into(catImageView);
@@ -46,7 +45,7 @@ public class ViewImageActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        SPUtils.persistFavoriteState(this, imageId, isFavorite);
+        SPUtils.persistFavoriteState(this, imageUrl, isFavorite);
     }
 
     @Override

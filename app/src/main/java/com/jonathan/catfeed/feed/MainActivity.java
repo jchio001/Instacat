@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
 
                 if (image.getUrl() != null) {
                     Intent intent = new Intent(this, ViewImageActivity.class);
-                    intent.putExtra(IntentKeys.IMAGE_ID, image.getId());
                     intent.putExtra(IntentKeys.IMAGE_URL, image.getUrl());
                     startActivity(intent);
                     break;

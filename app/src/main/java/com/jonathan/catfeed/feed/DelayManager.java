@@ -7,7 +7,7 @@ public class DelayManager {
 
     private static DelayManager instance;
 
-    private final long cooldown = 2500;
+    private final long cooldown = 1500;
     private long lastActionTime = 0;
 
     public static DelayManager get() {

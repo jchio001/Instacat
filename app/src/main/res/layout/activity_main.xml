@@ -16,14 +16,20 @@
         app:itemTextColor="@drawable/bottom_nav_selector"
         app:menu="@menu/bottom_nav_menu"/>
 
-    <GridView
-        android:id="@+id/cat_grid_view"
+    <com.jonathan.catfeed.ui.SinglePaneFrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:horizontalSpacing="2dp"
-        android:layout_above="@+id/bottom_nav"
-        android:verticalSpacing="2dp"
-        android:numColumns="3">
-    </GridView>
+        android:layout_above="@+id/bottom_nav">
 
+        <com.jonathan.catfeed.ui.PaneGridView
+            android:id="@+id/cat_grid_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:horizontalSpacing="2dp"
+            android:verticalSpacing="2dp"
+            android:numColumns="3">
+        </com.jonathan.catfeed.ui.PaneGridView>
+
+    </com.jonathan.catfeed.ui.SinglePaneFrameLayout>
 </RelativeLayout>

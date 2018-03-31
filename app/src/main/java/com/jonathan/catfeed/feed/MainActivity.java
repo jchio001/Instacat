@@ -1,6 +1,5 @@
 package com.jonathan.catfeed.feed;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.GridView;
@@ -10,10 +9,11 @@ import com.jonathan.catfeed.R;
 import com.jonathan.catfeed.api.models.Image;
 import com.jonathan.catfeed.commons.GridCell;
 import com.jonathan.catfeed.commons.GridCell.ItemType;
+import com.jonathan.catfeed.data.FavoritesManager;
 import com.jonathan.catfeed.data.FeedManager;
 import com.jonathan.catfeed.data.FeedManager.FeedListener;
-import com.jonathan.catfeed.data.IntentKeys;
-import com.jonathan.catfeed.view.ViewImageActivity;
+import com.jonathan.catfeed.ui.PaneImageLayout;
+import com.jonathan.catfeed.ui.SinglePaneFrameLayout;
 
 import java.util.List;
 
@@ -23,6 +23,7 @@ import butterknife.OnItemClick;
 
 public class MainActivity extends AppCompatActivity {
 
+    @BindView(R.id.container) SinglePaneFrameLayout container;
     @BindView(R.id.cat_grid_view) GridView catGridView;
 
     private FeedAdapter feedAdapter = new FeedAdapter();
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        FavoritesManager.get().init(this);
+
         catGridView.setAdapter(feedAdapter);
         catGridView.setOnScrollListener(pagingScrollListener);
 
@@ -63,6 +66,13 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (!container.removeCurrentView()) {
+            super.onBackPressed();
+        }
+    }
+
     @OnItemClick(R.id.cat_grid_view)
     public void onGridCellClick(int position) {
         GridCell gridCell = feedAdapter.getItem(position);
@@ -74,12 +84,8 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case ItemType.IMAGE_CELL:
                 Image image = (Image) gridCell;
-
                 if (image.getUrl() != null) {
-                    Intent intent = new Intent(this, ViewImageActivity.class);
-                    intent.putExtra(IntentKeys.IMAGE_URL, image.getUrl());
-                    startActivity(intent);
-                    break;
+                    container.overlay(new PaneImageLayout(this, null, image.getUrl()));
                 }
         }
     }

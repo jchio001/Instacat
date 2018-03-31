@@ -1,6 +1,7 @@
 package com.jonathan.catfeed.feed;
 
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -13,6 +14,7 @@ import com.jonathan.catfeed.data.FavoritesManager;
 import com.jonathan.catfeed.data.FeedManager;
 import com.jonathan.catfeed.data.FeedManager.FeedListener;
 import com.jonathan.catfeed.ui.PaneImageLayout;
+import com.jonathan.catfeed.ui.PaneStackManager;
 import com.jonathan.catfeed.ui.SinglePaneFrameLayout;
 
 import java.util.List;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.container) SinglePaneFrameLayout container;
     @BindView(R.id.cat_grid_view) GridView catGridView;
+    @BindView(R.id.bottom_nav) BottomNavigationView bottomNav;
 
     private FeedAdapter feedAdapter = new FeedAdapter();
     private PagingScrollListener pagingScrollListener = new PagingScrollListener();
@@ -85,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             case ItemType.IMAGE_CELL:
                 Image image = (Image) gridCell;
                 if (image.getUrl() != null) {
-                    container.overlay(new PaneImageLayout(this, null, image.getUrl()));
+                    container.overlay(0, new PaneImageLayout(this, null, image.getUrl()));
                 }
         }
     }

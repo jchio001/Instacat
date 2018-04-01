@@ -17,7 +17,6 @@ import com.jonathan.catfeed.data.FavoritesManager;
 import com.jonathan.catfeed.data.FeedManager;
 import com.jonathan.catfeed.data.FeedManager.FeedListener;
 import com.jonathan.catfeed.ui.BottomNavContentPresenter;
-import com.jonathan.catfeed.ui.PaneGridView;
 import com.jonathan.catfeed.ui.PaneImageLayout;
 import com.jonathan.catfeed.ui.SinglePaneFrameLayout;
 

@@ -1,15 +1,9 @@
 package com.jonathan.catfeed.data;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.text.TextUtils;
 
-import com.jonathan.catfeed.api.models.Image;
-
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class SPUtils {
 

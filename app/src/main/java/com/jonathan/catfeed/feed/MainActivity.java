@@ -2,8 +2,11 @@ package com.jonathan.catfeed.feed;
 
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.BottomNavigationView.OnNavigationItemSelectedListener;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.widget.GridView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.jonathan.catfeed.R;
@@ -13,8 +16,9 @@ import com.jonathan.catfeed.commons.GridCell.ItemType;
 import com.jonathan.catfeed.data.FavoritesManager;
 import com.jonathan.catfeed.data.FeedManager;
 import com.jonathan.catfeed.data.FeedManager.FeedListener;
+import com.jonathan.catfeed.ui.BottomNavContentPresenter;
+import com.jonathan.catfeed.ui.PaneGridView;
 import com.jonathan.catfeed.ui.PaneImageLayout;
-import com.jonathan.catfeed.ui.PaneStackManager;
 import com.jonathan.catfeed.ui.SinglePaneFrameLayout;
 
 import java.util.List;
@@ -25,12 +29,32 @@ import butterknife.OnItemClick;
 
 public class MainActivity extends AppCompatActivity {
 
+    @BindView(R.id.parent) RelativeLayout parent;
     @BindView(R.id.container) SinglePaneFrameLayout container;
     @BindView(R.id.cat_grid_view) GridView catGridView;
     @BindView(R.id.bottom_nav) BottomNavigationView bottomNav;
 
     private FeedAdapter feedAdapter = new FeedAdapter();
     private PagingScrollListener pagingScrollListener = new PagingScrollListener();
+
+    private BottomNavContentPresenter bottomNavContentManager;
+
+    private OnNavigationItemSelectedListener bottomNavListener = item -> {
+        if (item.getItemId() == R.id.action_home) {
+            bottomNavContentManager.focusTab(R.id.action_home);
+            return true;
+        } else {
+            if (!bottomNavContentManager.contains(item.getItemId())) {
+                SinglePaneFrameLayout favoritesContainer = (SinglePaneFrameLayout)
+                    LayoutInflater.from(this).inflate(R.layout.container_grid_layout, parent, false);
+                bottomNavContentManager.addContainer(item.getItemId(), favoritesContainer);
+            }
+
+            bottomNavContentManager.focusTab(item.getItemId());
+
+            return true;
+        }
+    };
 
     private FeedListener feedListener = new FeedListener() {
         @Override
@@ -53,6 +77,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        bottomNavContentManager = new BottomNavContentPresenter(parent);
+        bottomNav.setOnNavigationItemSelectedListener(bottomNavListener);
+
+        int firstTabId = bottomNav.getMenu().getItem(0).getItemId();
+        bottomNavContentManager
+            .addInitialContainer(firstTabId, container);
+        bottomNavContentManager.focusTab(firstTabId);
 
         FavoritesManager.get().init(this);
 
@@ -71,7 +102,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (!container.removeCurrentView()) {
+        int newTabId = bottomNavContentManager.removeCurrentPane();
+        if (newTabId != BottomNavContentPresenter.NO_PREVIOUS_TAB_ID) {
+            bottomNav.setSelectedItemId(newTabId);
+        } else {
             super.onBackPressed();
         }
     }
@@ -88,7 +122,8 @@ public class MainActivity extends AppCompatActivity {
             case ItemType.IMAGE_CELL:
                 Image image = (Image) gridCell;
                 if (image.getUrl() != null) {
-                    container.overlay(0, new PaneImageLayout(this, null, image.getUrl()));
+                    bottomNavContentManager.overlay(
+                        new PaneImageLayout(this, null, image.getUrl()));
                 }
         }
     }

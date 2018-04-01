@@ -1,0 +1,17 @@
+<com.jonathan.catfeed.ui.SinglePaneFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_above="@+id/bottom_nav">
+
+    <com.jonathan.catfeed.ui.PaneGridView
+        android:id="@+id/cat_grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:horizontalSpacing="2dp"
+        android:verticalSpacing="2dp"
+        android:numColumns="3">
+    </com.jonathan.catfeed.ui.PaneGridView>
+
+</com.jonathan.catfeed.ui.SinglePaneFrameLayout>

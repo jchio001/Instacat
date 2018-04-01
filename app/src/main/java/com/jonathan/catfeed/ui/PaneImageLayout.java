@@ -28,7 +28,7 @@ public class PaneImageLayout extends FrameLayout implements Pane {
 
     public PaneImageLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        View contentView = inflate(context, R.layout.activity_view_image, this);
+        View contentView = inflate(context, R.layout.pane_view_image, this);
         ButterKnife.bind(this, contentView);
     }
 
@@ -36,7 +36,7 @@ public class PaneImageLayout extends FrameLayout implements Pane {
                            @Nullable AttributeSet attrs,
                            @NonNull String imageUrl) {
         super(context, attrs);
-        View contentView = inflate(context, R.layout.activity_view_image, this);
+        View contentView = inflate(context, R.layout.pane_view_image, this);
         ButterKnife.bind(this, contentView);
         withImage(imageUrl);
     }

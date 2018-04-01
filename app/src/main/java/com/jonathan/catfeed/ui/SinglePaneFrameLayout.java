@@ -1,6 +1,5 @@
 package com.jonathan.catfeed.ui;
 
-
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +14,8 @@ public class SinglePaneFrameLayout extends FrameLayout implements Container {
 
     private static final String ONLY_ONE_CHILD = "Only 1 child view allowed.";
 
+    private List<Pane> paneStack = new ArrayList<>();
+
     public SinglePaneFrameLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
@@ -28,29 +29,39 @@ public class SinglePaneFrameLayout extends FrameLayout implements Container {
         }
 
         if (getChildCount() == 1) {
-            PaneStackManager.get().addPane(0, (Pane) getChildAt(0));
+            paneStack.add((Pane) getChildAt(0));
         }
     }
 
     @Override
-    public void overlay(int tabIndex, Pane pane) {
+    public void overlay(Pane pane) {
         if (getChildCount() >= 1) {
             removeAllViews();
         }
 
         addView((View) pane);
-        PaneStackManager.get().addPane(tabIndex, pane);
+        paneStack.add(pane);
     }
 
     @Override
     public boolean removeCurrentView() {
-        View newCurrentView = (View) PaneStackManager.get().popCurrentPane();
-        if (newCurrentView == null) {
-            return false;
-        } else {
+        if (getChildCount() >= 1 && paneStack.get(paneStack.size() - 1).isRemovable()) {
             removeAllViews();
-            addView(newCurrentView);
+            paneStack.remove(paneStack.size() - 1).onRemove();
+            addView((View) paneStack.get(paneStack.size() - 1));
             return true;
         }
+
+        return false;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return paneStack.isEmpty();
+    }
+
+    @Override
+    public Pane getCurrentPane() {
+        return paneStack.get(paneStack.size() - 1);
     }
 }

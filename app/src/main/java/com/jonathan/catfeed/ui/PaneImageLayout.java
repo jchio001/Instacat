@@ -17,7 +17,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-
 public class PaneImageLayout extends FrameLayout implements Pane {
 
     @BindView(R.id.cat_image_view) SquareImageView catImageView;

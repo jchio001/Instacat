@@ -25,7 +25,7 @@ public class BottomNavContentPresenter {
     }
 
     public void overlay(Pane pane) {
-        tabIdToContainer.get(containerStack.get(containerStack.size() - 1)).overlay(pane);
+        tabIdToContainer.get(peek(containerStack)).overlay(pane);
     }
 
     public void addInitialContainer(@IdRes int tabId, Container container) {
@@ -38,11 +38,10 @@ public class BottomNavContentPresenter {
     }
 
     public void focusTab(@IdRes int tabId) {
-        if (containerStack.size() >= 1 && containerStack.get(containerStack.size() - 1) == tabId) {
+        if (!containerStack.isEmpty() && peek(containerStack) == tabId) {
             return;
         } else {
-            containerStack.remove((Integer) tabId);
-            containerStack.add(tabId);
+            moveToTop(containerStack, tabId);
             Container newTopContainer = tabIdToContainer.get(tabId);
             parent.removeViewAt(1);
             parent.addView((View) newTopContainer, 1);
@@ -95,5 +94,10 @@ public class BottomNavContentPresenter {
 
     private void popTop(List stack) {
         stack.remove(stack.size() - 1);
+    }
+
+    private<T> void moveToTop(List<T> stack, T item) {
+        stack.remove(item);
+        stack.add(item);
     }
 }

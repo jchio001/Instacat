@@ -1,4 +1,4 @@
-package com.jonathan.catfeed.ui;
+package com.jonathan.catfeed.ui.commons;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -10,7 +10,6 @@ import android.widget.ImageView;
 
 import com.jonathan.catfeed.R;
 import com.jonathan.catfeed.data.FavoritesManager;
-import com.jonathan.catfeed.feed.SquareImageView;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;

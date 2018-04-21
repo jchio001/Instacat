@@ -1,9 +1,12 @@
-package com.jonathan.catfeed.ui;
+package com.jonathan.catfeed.ui.activity;
 
 import android.support.annotation.IdRes;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.jonathan.catfeed.ui.commons.Container;
+import com.jonathan.catfeed.ui.commons.Pane;
 
 import java.util.ArrayList;
 import java.util.List;

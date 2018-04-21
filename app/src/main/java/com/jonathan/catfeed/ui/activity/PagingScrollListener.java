@@ -1,4 +1,4 @@
-package com.jonathan.catfeed.feed;
+package com.jonathan.catfeed.ui.activity;
 
 import android.widget.AbsListView;
 

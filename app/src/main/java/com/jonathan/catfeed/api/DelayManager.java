@@ -1,4 +1,4 @@
-package com.jonathan.catfeed.feed;
+package com.jonathan.catfeed.api;
 
 /**
  * Used to calculate the delay for request more cat pictures

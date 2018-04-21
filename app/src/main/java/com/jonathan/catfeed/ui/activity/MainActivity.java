@@ -1,24 +1,25 @@
-package com.jonathan.catfeed.feed;
+package com.jonathan.catfeed.ui.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomNavigationView.OnNavigationItemSelectedListener;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
 import android.widget.GridView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.jonathan.catfeed.R;
+import com.jonathan.catfeed.api.DelayManager;
 import com.jonathan.catfeed.api.models.Image;
 import com.jonathan.catfeed.commons.GridCell;
 import com.jonathan.catfeed.commons.GridCell.ItemType;
 import com.jonathan.catfeed.data.FavoritesManager;
 import com.jonathan.catfeed.data.FeedManager;
 import com.jonathan.catfeed.data.FeedManager.FeedListener;
-import com.jonathan.catfeed.ui.BottomNavContentPresenter;
-import com.jonathan.catfeed.ui.PaneImageLayout;
-import com.jonathan.catfeed.ui.SinglePaneFrameLayout;
+import com.jonathan.catfeed.feed.FeedAdapter;
+import com.jonathan.catfeed.ui.commons.FavoritesLayout;
+import com.jonathan.catfeed.ui.commons.PaneImageLayout;
+import com.jonathan.catfeed.ui.commons.SinglePaneFrameLayout;
 
 import java.util.List;
 
@@ -44,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else {
             if (!bottomNavContentManager.contains(item.getItemId())) {
-                SinglePaneFrameLayout favoritesContainer = (SinglePaneFrameLayout)
-                    LayoutInflater.from(this).inflate(R.layout.container_grid_layout, parent, false);
+                FavoritesLayout favoritesContainer = (FavoritesLayout)
+                    new FavoritesLayout(this, null);
                 bottomNavContentManager.addContainer(item.getItemId(), favoritesContainer);
             }
 

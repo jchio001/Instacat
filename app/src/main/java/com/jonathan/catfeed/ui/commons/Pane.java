@@ -1,4 +1,4 @@
-package com.jonathan.catfeed.ui;
+package com.jonathan.catfeed.ui.commons;
 
 public interface Pane {
     Container getContainer();

@@ -13,6 +13,7 @@ public class FavoritesManager {
     private static FavoritesManager instance;
 
     private Map<String, Boolean> favorites;
+    private UpdateEventManager updateEventManager = new UpdateEventManager();
 
     public static FavoritesManager get() {
         if (instance == null) {
@@ -30,6 +31,10 @@ public class FavoritesManager {
         favorites = SPUtils.retrieveFavorites(context);
     }
 
+    public Map<String, Boolean> getFavorites() {
+        return favorites;
+    }
+
     public boolean isFavorite(String url) {
         if (favorites.containsKey(url)) {
             return favorites.get(url);
@@ -39,9 +44,18 @@ public class FavoritesManager {
     }
 
     public void persistFavoriteState(Context context,
-                                     String imageId,
+                                     String imageUrl,
                                      boolean isFavorite) {
-        favorites.put(imageId, isFavorite);
-        SPUtils.persistFavoriteState(context, imageId, isFavorite);
+        boolean wasFavorite = isFavorite(imageUrl);
+        if (wasFavorite != isFavorite) {
+            updateEventManager.publishUpdate();
+        }
+
+        favorites.put(imageUrl, isFavorite);
+        SPUtils.persistFavoriteState(context, imageUrl, isFavorite);
+    }
+
+    public boolean consumeUpdateIfPresent() {
+        return updateEventManager.consumeUpdateIfPresent();
     }
 }

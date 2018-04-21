@@ -7,7 +7,7 @@
     android:clickable="true"
     android:focusable="true">
     
-    <com.jonathan.catfeed.feed.SquareImageView
+    <com.jonathan.catfeed.ui.commons.SquareImageView
         android:id="@+id/cat_image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

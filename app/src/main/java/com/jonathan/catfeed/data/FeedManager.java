@@ -6,7 +6,7 @@ import android.util.Log;
 import com.jonathan.catfeed.api.ApiClient;
 import com.jonathan.catfeed.api.models.FeedResponse;
 import com.jonathan.catfeed.api.models.Image;
-import com.jonathan.catfeed.feed.DelayManager;
+import com.jonathan.catfeed.api.DelayManager;
 
 import java.util.List;
 

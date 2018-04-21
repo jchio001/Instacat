@@ -1,6 +1,8 @@
 package com.jonathan.catfeed.feed;
 
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import com.jonathan.catfeed.R;
 import com.jonathan.catfeed.api.models.Image;
 import com.jonathan.catfeed.commons.GridCell;
 import com.jonathan.catfeed.commons.GridCell.ItemType;
+import com.jonathan.catfeed.ui.commons.SquareImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.Locale;
@@ -20,7 +23,8 @@ public class FeedViewManager {
     public static View getView(GridCell gridCell, View convertView, ViewGroup parent) {
         switch (gridCell.getItemType()) {
             case ItemType.IMAGE_CELL:
-                return FeedViewManager.getImageCellView((Image) gridCell, convertView, parent);
+                return FeedViewManager
+                    .getImageCellView(((Image) gridCell).getUrl(), convertView, parent);
             case ItemType.EMPTY_SPACE_CELL:
                 return FeedViewManager.getEmptySquareView(convertView, parent);
             case ItemType.PROGRESS_BAR_CELL:
@@ -33,7 +37,9 @@ public class FeedViewManager {
         }
     }
 
-    private static View getImageCellView(Image image, View convertView, ViewGroup parent) {
+    public static View getImageCellView(@Nullable String imageUrl,
+                                        @Nullable View convertView,
+                                        @NonNull ViewGroup parent) {
         if (convertView == null) {
             convertView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.image_cell, parent, false);
@@ -42,9 +48,9 @@ public class FeedViewManager {
         SquareImageView squareImageView = (SquareImageView) convertView;
         squareImageView.setImageDrawable(null);
 
-        if (image.getUrl() != null) {
+        if (imageUrl != null) {
             Picasso.get()
-                .load(image.getUrl())
+                .load(imageUrl)
                 .into(squareImageView);
         }
 

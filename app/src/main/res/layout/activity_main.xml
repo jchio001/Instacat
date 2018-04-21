@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.jonathan.catfeed.feed.MainActivity">
+    tools:context="com.jonathan.catfeed.ui.activity.MainActivity">
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottom_nav"

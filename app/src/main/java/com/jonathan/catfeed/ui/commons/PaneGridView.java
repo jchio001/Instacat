@@ -25,6 +25,6 @@ public class PaneGridView extends GridView implements Pane {
     }
 
     @Override
-    public void onRemove() {
+    public void onDetach() {
     }
 }

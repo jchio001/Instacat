@@ -45,8 +45,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else {
             if (!bottomNavContentManager.contains(item.getItemId())) {
-                FavoritesLayout favoritesContainer = (FavoritesLayout)
-                    new FavoritesLayout(this, null);
+                FavoritesLayout favoritesContainer = new FavoritesLayout(this, null);
                 bottomNavContentManager.addContainer(item.getItemId(), favoritesContainer);
             }
 

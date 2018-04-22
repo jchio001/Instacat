@@ -44,10 +44,12 @@ public class BottomNavContentPresenter {
         if (!containerStack.isEmpty() && peek(containerStack) == tabId) {
             return;
         } else {
+            peekTopContainer().onDetach();
             moveToTop(containerStack, tabId);
             Container newTopContainer = tabIdToContainer.get(tabId);
             parent.removeViewAt(1);
             parent.addView((View) newTopContainer, 1);
+            newTopContainer.onAttach();
         }
     }
 
@@ -83,6 +85,7 @@ public class BottomNavContentPresenter {
             Container newTopContainer = tabIdToContainer.get(newTopContainerId);
             parent.removeViewAt(1);
             parent.addView((View) newTopContainer, 1);
+            newTopContainer.onAttach();
             return newTopContainerId;
         }
     }

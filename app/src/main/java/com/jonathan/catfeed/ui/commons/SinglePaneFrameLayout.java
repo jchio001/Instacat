@@ -38,6 +38,11 @@ public class SinglePaneFrameLayout extends FrameLayout implements Container {
     }
 
     @Override
+    public void onDetach() {
+        paneStack.get(paneStack.size() - 1).onDetach();
+    }
+
+    @Override
     public void overlay(Pane pane) {
         if (getChildCount() >= 1) {
             removeAllViews();
@@ -51,7 +56,7 @@ public class SinglePaneFrameLayout extends FrameLayout implements Container {
     public boolean removeCurrentView() {
         if (getChildCount() >= 1 && paneStack.get(paneStack.size() - 1).isRemovable()) {
             removeAllViews();
-            paneStack.remove(paneStack.size() - 1).onRemove();
+            paneStack.remove(paneStack.size() - 1).onDetach();
             addView((View) paneStack.get(paneStack.size() - 1));
             return true;
         }

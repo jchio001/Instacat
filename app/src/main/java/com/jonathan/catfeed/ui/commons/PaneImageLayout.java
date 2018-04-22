@@ -50,7 +50,7 @@ public class PaneImageLayout extends FrameLayout implements Pane {
     }
 
     @Override
-    public void onRemove() {
+    public void onDetach() {
         FavoritesManager.get().persistFavoriteState(getContext(), imageUrl, isFavorite);
     }
 

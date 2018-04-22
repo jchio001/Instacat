@@ -45,14 +45,14 @@ public class FavoritesManager {
 
     public void persistFavoriteState(Context context,
                                      String imageUrl,
-                                     boolean isFavorite) {
+                                     boolean newFavoriteState) {
         boolean wasFavorite = isFavorite(imageUrl);
-        if (wasFavorite != isFavorite) {
+        if (wasFavorite != newFavoriteState) {
             updateEventManager.publishUpdate();
         }
 
-        favorites.put(imageUrl, isFavorite);
-        SPUtils.persistFavoriteState(context, imageUrl, isFavorite);
+        favorites.put(imageUrl, newFavoriteState);
+        SPUtils.persistFavoriteState(context, imageUrl, newFavoriteState);
     }
 
     public boolean consumeUpdateIfPresent() {
